@@ -13,6 +13,6 @@ defmodule Kierroskone.Tracks.Track do
   def changeset(track, attrs) do
     track
     |> cast(attrs, [:name, :game_id])
-    |> validate_required([:name])
+    |> validate_required([:name, :game_id])
   end
 end

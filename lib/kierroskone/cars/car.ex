@@ -14,6 +14,6 @@ defmodule Kierroskone.Cars.Car do
   def changeset(car, attrs) do
     car
     |> cast(attrs, [:name, :class_id])
-    |> validate_required([:name])
+    |> validate_required([:name, :class_id])
   end
 end
