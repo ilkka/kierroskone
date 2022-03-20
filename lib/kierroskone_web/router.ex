@@ -19,12 +19,21 @@ defmodule KierroskoneWeb.Router do
 
     get("/", PageController, :index)
 
+    # GAMES
     live("/games", GameLive.Index, :index)
     live("/games/new", GameLive.Index, :new)
     live("/games/:id/edit", GameLive.Index, :edit)
 
     live("/games/:id", GameLive.Show, :show)
     live("/games/:id/show/edit", GameLive.Show, :edit)
+
+    # TRACKS
+    live "/tracks", TrackLive.Index, :index
+    live "/tracks/new", TrackLive.Index, :new
+    live "/tracks/:id/edit", TrackLive.Index, :edit
+
+    live "/tracks/:id", TrackLive.Show, :show
+    live "/tracks/:id/show/edit", TrackLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
