@@ -26,7 +26,7 @@
     <%= for {track, record} <- @tracks do %>
       <tr id={"track-#{track.id}"}>
         <td><%= track.name %></td>
-        <td><%= record.milliseconds %></td>
+        <td><%= humanize_laptime(record) %></td>
         <td><%= record.user.name %></td>
         <td>
           <span><%= live_redirect "Show", to: Routes.track_show_path(@socket, :show, track) %></span>

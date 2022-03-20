@@ -57,4 +57,11 @@ defmodule KierroskoneWeb.LiveHelpers do
     |> JS.hide(to: "#modal", transition: "fade-out")
     |> JS.hide(to: "#modal-content", transition: "fade-out-scale")
   end
+
+  def humanize_laptime(laptime) do
+    {_h, m, s, ms} =
+      Timex.Duration.from_milliseconds(laptime.milliseconds) |> Timex.Duration.to_clock()
+
+    "#{m}:#{s |> Integer.to_string() |> String.pad_leading(2, "0")}.#{ms |> Integer.to_string() |> String.pad_leading(3, "0")}"
+  end
 end
