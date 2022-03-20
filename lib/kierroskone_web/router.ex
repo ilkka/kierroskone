@@ -36,12 +36,12 @@ defmodule KierroskoneWeb.Router do
     live "/tracks/:id/show/edit", TrackLive.Show, :edit
 
     # CLASSES
-    live "/car_classes", ClassLive.Index, :index
-    live "/car_classes/new", ClassLive.Index, :new
-    live "/car_classes/:id/edit", ClassLive.Index, :edit
+    live "/classes", ClassLive.Index, :index
+    live "/classes/new", ClassLive.Index, :new
+    live "/classes/:id/edit", ClassLive.Index, :edit
 
-    live "/car_classes/:id", ClassLive.Show, :show
-    live "/car_classes/:id/show/edit", ClassLive.Show, :edit
+    live "/classes/:id", ClassLive.Show, :show
+    live "/classes/:id/show/edit", ClassLive.Show, :edit
 
     # CARS
     live "/cars", CarLive.Index, :index

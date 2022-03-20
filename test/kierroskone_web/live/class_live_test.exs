@@ -16,7 +16,7 @@ defmodule KierroskoneWeb.ClassLiveTest do
   describe "Index" do
     setup [:create_class]
 
-    test "lists all car_classes", %{conn: conn, class: class} do
+    test "lists all classes", %{conn: conn, class: class} do
       {:ok, _index_live, html} = live(conn, Routes.class_index_path(conn, :index))
 
       assert html =~ "Listing Car classes"

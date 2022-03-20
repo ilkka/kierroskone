@@ -3,16 +3,16 @@ defmodule Kierroskone.CarsTest do
 
   alias Kierroskone.Cars
 
-  describe "car_classes" do
+  describe "classes" do
     alias Kierroskone.Cars.Class
 
     import Kierroskone.CarsFixtures
 
     @invalid_attrs %{name: nil}
 
-    test "list_car_classes/0 returns all car_classes" do
+    test "list_classes/0 returns all classes" do
       class = class_fixture()
-      assert Cars.list_car_classes() == [class]
+      assert Cars.list_classes() == [class]
     end
 
     test "get_class!/1 returns the class with given id" do

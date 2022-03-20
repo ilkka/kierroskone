@@ -6,7 +6,7 @@ defmodule KierroskoneWeb.ClassLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :car_classes, list_car_classes())}
+    {:ok, assign(socket, :classes, list_classes())}
   end
 
   @impl true
@@ -37,10 +37,10 @@ defmodule KierroskoneWeb.ClassLive.Index do
     class = Cars.get_class!(id)
     {:ok, _} = Cars.delete_class(class)
 
-    {:noreply, assign(socket, :car_classes, list_car_classes())}
+    {:noreply, assign(socket, :classes, list_classes())}
   end
 
-  defp list_car_classes do
-    Cars.list_car_classes()
+  defp list_classes do
+    Cars.list_classes()
   end
 end

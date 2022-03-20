@@ -8,7 +8,7 @@ defmodule KierroskoneWeb.CarLive.FormComponent do
     {:ok,
      assign(socket,
        games: Kierroskone.Games.list_games(),
-       classes: Kierroskone.Cars.list_car_classes()
+       classes: Kierroskone.Cars.list_classes()
      )}
   end
 

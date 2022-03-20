@@ -9,15 +9,15 @@ defmodule Kierroskone.Cars do
   alias Kierroskone.Cars.Class
 
   @doc """
-  Returns the list of car_classes.
+  Returns the list of classes.
 
   ## Examples
 
-      iex> list_car_classes()
+      iex> list_classes()
       [%Class{}, ...]
 
   """
-  def list_car_classes do
+  def list_classes do
     Repo.all(Class) |> Repo.preload([:game])
   end
 

@@ -17,9 +17,9 @@
     <%= select f, :game_id, Enum.map(@games, &{&1.name, &1.id}), prompt: "None" %>
     <%= error_tag f, :game_id %>
 
-    <%= label f, :car_class_id %>
-    <%= select f, :car_class_id, Enum.map(@classes, &{&1.name, &1.id}), prompt: "None" %>
-    <%= error_tag f, :car_class_id %>
+    <%= label f, :class_id %>
+    <%= select f, :class_id, Enum.map(@classes, &{&1.name, &1.id}), prompt: "None" %>
+    <%= error_tag f, :class_id %>
   
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>

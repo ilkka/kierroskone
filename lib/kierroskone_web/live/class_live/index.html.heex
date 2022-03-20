@@ -21,8 +21,8 @@
       <th></th>
     </tr>
   </thead>
-  <tbody id="car_classes">
-    <%= for class <- @car_classes do %>
+  <tbody id="classes">
+    <%= for class <- @classes do %>
       <tr id={"class-#{class.id}"}>
         <td><%= class.name %></td>
 

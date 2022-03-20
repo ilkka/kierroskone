@@ -2,7 +2,7 @@ defmodule Kierroskone.Cars.Class do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "car_classes" do
+  schema "classes" do
     field :name, :string
     belongs_to :game, Kierroskone.Games.Game
 
