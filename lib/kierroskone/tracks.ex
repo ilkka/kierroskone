@@ -133,6 +133,12 @@ defmodule Kierroskone.Tracks do
   """
   def get_laptime!(id), do: Repo.get!(Laptime, id)
 
+  def get_laptimes(track) do
+    from(lt in Laptime, where: lt.track_id == ^track.id, order_by: [asc: lt.milliseconds])
+    |> Repo.all()
+    |> Repo.preload([:user, car: [:class]])
+  end
+
   @doc """
   Get fastest laptime for a track
   """
