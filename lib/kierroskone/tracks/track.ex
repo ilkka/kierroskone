@@ -4,7 +4,7 @@ defmodule Kierroskone.Tracks.Track do
 
   schema "tracks" do
     field :name, :string
-    field :game_id, :id
+    belongs_to :game, Kierroskone.Games.Game
 
     timestamps()
   end
@@ -12,7 +12,7 @@ defmodule Kierroskone.Tracks.Track do
   @doc false
   def changeset(track, attrs) do
     track
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :game_id])
     |> validate_required([:name])
   end
 end

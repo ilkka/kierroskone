@@ -4,6 +4,11 @@ defmodule KierroskoneWeb.TrackLive.FormComponent do
   alias Kierroskone.Tracks
 
   @impl true
+  def mount(socket) do
+    {:ok, assign(socket, games: Kierroskone.Games.list_games())}
+  end
+
+  @impl true
   def update(%{track: track} = assigns, socket) do
     changeset = Tracks.change_track(track)
 

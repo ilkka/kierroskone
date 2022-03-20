@@ -18,7 +18,7 @@ defmodule Kierroskone.Tracks do
 
   """
   def list_tracks do
-    Repo.all(Track)
+    Repo.all(Track) |> Repo.preload([:game])
   end
 
   @doc """
@@ -35,7 +35,7 @@ defmodule Kierroskone.Tracks do
       ** (Ecto.NoResultsError)
 
   """
-  def get_track!(id), do: Repo.get!(Track, id)
+  def get_track!(id), do: Repo.get!(Track, id) |> Repo.preload([:game])
 
   @doc """
   Creates a track.

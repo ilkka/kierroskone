@@ -20,6 +20,18 @@
     <%= @track.name %>
   </li>
 
+  <li>
+    <strong>Game:</strong>
+    <%=
+    cond do
+      is_nil(@track.game) ->
+        "Not selected"
+      true ->
+        @track.game.name
+    end
+    %>
+  </li>
+
 </ul>
 
 <span><%= live_patch "Edit", to: Routes.track_show_path(@socket, :edit, @track), class: "button" %></span> |

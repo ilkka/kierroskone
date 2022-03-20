@@ -4,6 +4,7 @@ defmodule Kierroskone.Games.Game do
 
   schema "games" do
     field :name, :string
+    has_many :tracks, Kierroskone.Tracks.Track
 
     timestamps()
   end
