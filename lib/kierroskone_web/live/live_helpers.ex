@@ -59,9 +59,9 @@ defmodule KierroskoneWeb.LiveHelpers do
   end
 
   def humanize_laptime(laptime) do
-    {_h, m, s, ms} =
+    {_h, min, sec, usec} =
       Timex.Duration.from_milliseconds(laptime.milliseconds) |> Timex.Duration.to_clock()
 
-    "#{m}:#{s |> Integer.to_string() |> String.pad_leading(2, "0")}.#{ms |> Integer.to_string() |> String.pad_leading(3, "0")}"
+    "#{min}:#{sec |> Integer.to_string() |> String.pad_leading(2, "0")}.#{floor(usec / 1000) |> Integer.to_string() |> String.pad_leading(3, "0")}"
   end
 end
