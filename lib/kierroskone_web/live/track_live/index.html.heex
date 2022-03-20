@@ -26,8 +26,12 @@
     <%= for {track, record} <- @tracks do %>
       <tr id={"track-#{track.id}"}>
         <td><%= track.name %></td>
-        <td><%= humanize_laptime(record) %></td>
-        <td><%= record.user.name %></td>
+        <%= if is_nil(record) do %>
+          <td colspan="2">Not available</td>
+        <% else %>
+          <td><%= humanize_laptime(record) %></td>
+          <td><%= record.user.name %></td>
+        <% end %>
         <td>
           <span><%= live_redirect "Show", to: Routes.track_show_path(@socket, :show, track) %></span>
           <span><%= live_patch "Edit", to: Routes.track_index_path(@socket, :edit, track) %></span>
