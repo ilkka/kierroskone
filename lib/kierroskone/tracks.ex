@@ -139,7 +139,7 @@ defmodule Kierroskone.Tracks do
   def get_fastest_time(track) do
     from(p in Laptime, where: p.track_id == ^track.id, order_by: [asc: p.milliseconds])
     |> Repo.one()
-    |> Repo.preload([:user, :car])
+    |> Repo.preload([:user, car: [:class]])
   end
 
   @doc """

@@ -10,10 +10,13 @@ defmodule KierroskoneWeb.TrackLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    track = Tracks.get_track!(id)
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:track, Tracks.get_track!(id))}
+     |> assign(:track, track)
+     |> assign(:record, Tracks.get_fastest_time(track))}
   end
 
   defp page_title(:show), do: "Show Track"
