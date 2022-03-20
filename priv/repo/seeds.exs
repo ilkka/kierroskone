@@ -42,4 +42,10 @@ oksala =
 
 ahto = Repo.insert!(%User{name: "Ahto Simakuutio"})
 
-record = Repo.insert!(%Laptime{milliseconds: 4 * 60 * 1000, car_id: evo.id, track_id: oksala.id})
+record =
+  Repo.insert!(%Laptime{
+    milliseconds: 4 * 60 * 1000,
+    car_id: evo.id,
+    track_id: oksala.id,
+    user_id: ahto.id
+  })
