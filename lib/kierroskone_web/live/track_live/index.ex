@@ -6,7 +6,12 @@ defmodule KierroskoneWeb.TrackLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :tracks, list_tracks())}
+    {:ok,
+     assign(
+       socket,
+       :tracks,
+       list_tracks() |> Enum.map(fn t -> {t, Tracks.get_fastest_time(t)} end)
+     )}
   end
 
   @impl true
