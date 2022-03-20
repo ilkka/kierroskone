@@ -137,9 +137,10 @@ defmodule Kierroskone.Tracks do
   Get fastest laptime for a track
   """
   def get_overall_record(track) do
-    from(p in Laptime,
-      where: p.track_id == ^track.id and not is_nil(p.user_id),
-      order_by: [asc: p.milliseconds]
+    from(lt in Laptime,
+      where: lt.track_id == ^track.id and not is_nil(lt.user_id),
+      order_by: [asc: lt.milliseconds],
+      limit: 1
     )
     |> Repo.one()
     |> Repo.preload([:user, car: [:class]])
