@@ -10,7 +10,7 @@ defmodule KierroskoneWeb.TrackLive.Index do
      assign(
        socket,
        :tracks,
-       list_tracks() |> Enum.map(fn t -> {t, Tracks.get_fastest_time(t)} end)
+       list_tracks() |> Enum.map(fn t -> {t, Tracks.get_overall_record(t)} end)
      )}
   end
 

@@ -16,7 +16,7 @@ defmodule KierroskoneWeb.TrackLive.Show do
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:track, track)
-     |> assign(:record, Tracks.get_fastest_time(track))}
+     |> assign(:record, Tracks.get_overall_record(track))}
   end
 
   defp page_title(:show), do: "Show Track"
