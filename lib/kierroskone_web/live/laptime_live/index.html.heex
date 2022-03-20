@@ -1,0 +1,39 @@
+<h1>Listing Laptimes</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.laptime_index_path(@socket, :index)}>
+    <.live_component
+      module={KierroskoneWeb.LaptimeLive.FormComponent}
+      id={@laptime.id || :new}
+      title={@page_title}
+      action={@live_action}
+      laptime={@laptime}
+      return_to={Routes.laptime_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Milliseconds</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="laptimes">
+    <%= for laptime <- @laptimes do %>
+      <tr id={"laptime-#{laptime.id}"}>
+        <td><%= laptime.milliseconds %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.laptime_show_path(@socket, :show, laptime) %></span>
+          <span><%= live_patch "Edit", to: Routes.laptime_index_path(@socket, :edit, laptime) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: laptime.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Laptime", to: Routes.laptime_index_path(@socket, :new) %></span>

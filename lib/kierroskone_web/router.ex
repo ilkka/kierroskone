@@ -58,6 +58,14 @@ defmodule KierroskoneWeb.Router do
 
     live "/users/:id", UserLive.Show, :show
     live "/users/:id/show/edit", UserLive.Show, :edit
+
+    # LAPTIMES
+    live "/laptimes", LaptimeLive.Index, :index
+    live "/laptimes/new", LaptimeLive.Index, :new
+    live "/laptimes/:id/edit", LaptimeLive.Index, :edit
+
+    live "/laptimes/:id", LaptimeLive.Show, :show
+    live "/laptimes/:id/show/edit", LaptimeLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

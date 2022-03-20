@@ -101,4 +101,100 @@ defmodule Kierroskone.Tracks do
   def change_track(%Track{} = track, attrs \\ %{}) do
     Track.changeset(track, attrs)
   end
+
+  alias Kierroskone.Tracks.Laptime
+
+  @doc """
+  Returns the list of laptimes.
+
+  ## Examples
+
+      iex> list_laptimes()
+      [%Laptime{}, ...]
+
+  """
+  def list_laptimes do
+    Repo.all(Laptime)
+  end
+
+  @doc """
+  Gets a single laptime.
+
+  Raises `Ecto.NoResultsError` if the Laptime does not exist.
+
+  ## Examples
+
+      iex> get_laptime!(123)
+      %Laptime{}
+
+      iex> get_laptime!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_laptime!(id), do: Repo.get!(Laptime, id)
+
+  @doc """
+  Creates a laptime.
+
+  ## Examples
+
+      iex> create_laptime(%{field: value})
+      {:ok, %Laptime{}}
+
+      iex> create_laptime(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_laptime(attrs \\ %{}) do
+    %Laptime{}
+    |> Laptime.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a laptime.
+
+  ## Examples
+
+      iex> update_laptime(laptime, %{field: new_value})
+      {:ok, %Laptime{}}
+
+      iex> update_laptime(laptime, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_laptime(%Laptime{} = laptime, attrs) do
+    laptime
+    |> Laptime.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a laptime.
+
+  ## Examples
+
+      iex> delete_laptime(laptime)
+      {:ok, %Laptime{}}
+
+      iex> delete_laptime(laptime)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_laptime(%Laptime{} = laptime) do
+    Repo.delete(laptime)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking laptime changes.
+
+  ## Examples
+
+      iex> change_laptime(laptime)
+      %Ecto.Changeset{data: %Laptime{}}
+
+  """
+  def change_laptime(%Laptime{} = laptime, attrs \\ %{}) do
+    Laptime.changeset(laptime, attrs)
+  end
 end
