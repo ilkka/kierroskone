@@ -114,7 +114,7 @@ defmodule Kierroskone.Cars do
 
   """
   def list_cars do
-    Repo.all(Car) |> Repo.preload([:game, :class])
+    Repo.all(Car) |> Repo.preload([:class, :game])
   end
 
   @doc """
@@ -131,7 +131,7 @@ defmodule Kierroskone.Cars do
       ** (Ecto.NoResultsError)
 
   """
-  def get_car!(id), do: Repo.get!(Car, id) |> Repo.preload([:game, :class])
+  def get_car!(id), do: Repo.get!(Car, id) |> Repo.preload([:class, :game])
 
   @doc """
   Creates a car.

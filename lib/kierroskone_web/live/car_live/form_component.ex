@@ -7,7 +7,6 @@ defmodule KierroskoneWeb.CarLive.FormComponent do
   def mount(socket) do
     {:ok,
      assign(socket,
-       games: Kierroskone.Games.list_games(),
        classes: Kierroskone.Cars.list_classes()
      )}
   end

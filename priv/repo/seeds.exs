@@ -22,7 +22,7 @@ ac =
     name: "Assetto Corsa"
   })
 
-group_a =
+dirt_group_a =
   Repo.insert!(%Class{
     name: "Modern Rally Group A",
     game_id: dirt.id
@@ -31,8 +31,7 @@ group_a =
 evo =
   Repo.insert!(%Car{
     name: "Mitsubishi Lancer Evolution VI",
-    class_id: group_a.id,
-    game_id: dirt.id
+    class_id: dirt_group_a.id
   })
 
 oksala =
