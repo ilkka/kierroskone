@@ -34,6 +34,22 @@ defmodule KierroskoneWeb.Router do
 
     live "/tracks/:id", TrackLive.Show, :show
     live "/tracks/:id/show/edit", TrackLive.Show, :edit
+
+    # CLASSES
+    live "/car_classes", ClassLive.Index, :index
+    live "/car_classes/new", ClassLive.Index, :new
+    live "/car_classes/:id/edit", ClassLive.Index, :edit
+
+    live "/car_classes/:id", ClassLive.Show, :show
+    live "/car_classes/:id/show/edit", ClassLive.Show, :edit
+
+    # CARS
+    live "/cars", CarLive.Index, :index
+    live "/cars/new", CarLive.Index, :new
+    live "/cars/:id/edit", CarLive.Index, :edit
+
+    live "/cars/:id", CarLive.Show, :show
+    live "/cars/:id/show/edit", CarLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
