@@ -10,7 +10,7 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 alias Kierroskone.Repo
-alias Kierroskone.{Games.Game, Cars.Car, Cars.Class, Tracks.Track}
+alias Kierroskone.{Games.Game, Cars.Car, Cars.Class, Tracks.Track, Users.User, Tracks.Laptime}
 
 dirt =
   Repo.insert!(%Game{
@@ -39,3 +39,7 @@ oksala =
     name: "Oksala",
     game_id: dirt.id
   })
+
+ahto = Repo.insert!(%User{name: "Ahto Simakuutio"})
+
+record = Repo.insert!(%Laptime{milliseconds: 4 * 60 * 1000, car_id: evo.id, track_id: oksala.id})
