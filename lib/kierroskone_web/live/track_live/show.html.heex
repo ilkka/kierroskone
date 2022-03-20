@@ -33,7 +33,7 @@
   </li>
 
   <li>
-    <strong>Lap record:</strong>
+    <strong>Overall lap record:</strong>
     <%=
     cond do
       is_nil(@record) ->
@@ -42,6 +42,39 @@
         "#{humanize_laptime(@record)} by #{@record.user.name} on #{@record.inserted_at} in a #{@record.car.name} (#{@record.car.class.name})"
     end
     %>
+  </li>
+
+  <li>
+    <strong>Lap records per car:</strong>
+    <ul>
+      <%= for record <- @records do %>
+      <li><%= record.car.name %> (<%= record.car.class.name %>): <%= humanize_laptime(record) %> by <%= record.user.name %> on <%= record.inserted_at %></li>
+      <% end %>
+    </ul>
+  </li>
+  
+  <li>
+    <strong>Laptimes:</strong>
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Car</th>
+          <th>Driver</th>
+          <th>Recorded at</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for laptime <- @laptimes do %>
+          <tr>
+            <td><%= humanize_laptime(laptime) %></td>
+            <td><%= laptime.car.name %> (<%= laptime.car.class.name %>)</td>
+            <td><%= laptime.user.name %></td>
+            <td><%= laptime.inserted_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </li>
   
 </ul>
