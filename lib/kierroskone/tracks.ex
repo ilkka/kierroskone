@@ -153,6 +153,28 @@ defmodule Kierroskone.Tracks do
   end
 
   @doc """
+  Get fastest laptimes for track, per car.
+  """
+  def get_records_per_car(track) do
+    ranked_laptimes =
+      from lt in Laptime,
+        select: %{
+          id: lt.id,
+          rank: over(row_number(), partition_by: lt.car_id, order_by: lt.milliseconds)
+        },
+        where: lt.track_id == ^track.id
+
+    top_laptime_ids =
+      from lt in subquery(ranked_laptimes),
+        select: [lt.id],
+        where: fragment("rank = ?", 1)
+
+    from(lt in Laptime, where: lt.id in subquery(top_laptime_ids))
+    |> Repo.all()
+    |> Repo.preload([:user, car: [:class]])
+  end
+
+  @doc """
   Creates a laptime.
 
   ## Examples
