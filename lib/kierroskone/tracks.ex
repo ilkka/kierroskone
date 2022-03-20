@@ -18,7 +18,7 @@ defmodule Kierroskone.Tracks do
 
   """
   def list_tracks do
-    Repo.all(Track) |> Repo.preload([:game])
+    Repo.all(Track) |> Repo.preload([:game, :laptimes])
   end
 
   @doc """
@@ -35,7 +35,7 @@ defmodule Kierroskone.Tracks do
       ** (Ecto.NoResultsError)
 
   """
-  def get_track!(id), do: Repo.get!(Track, id) |> Repo.preload([:game])
+  def get_track!(id), do: Repo.get!(Track, id) |> Repo.preload([:game, :laptimes])
 
   @doc """
   Creates a track.
@@ -132,6 +132,15 @@ defmodule Kierroskone.Tracks do
 
   """
   def get_laptime!(id), do: Repo.get!(Laptime, id)
+
+  @doc """
+  Get fastest laptime for a track
+  """
+  def get_fastest_time(track) do
+    from(p in Laptime, where: p.track_id == ^track.id, order_by: [asc: p.milliseconds])
+    |> Repo.one()
+    |> Repo.preload([:user, :car])
+  end
 
   @doc """
   Creates a laptime.

@@ -5,6 +5,7 @@ defmodule Kierroskone.Tracks.Track do
   schema "tracks" do
     field :name, :string
     belongs_to :game, Kierroskone.Games.Game
+    has_many :laptimes, Kierroskone.Tracks.Laptime, foreign_key: :track_id
 
     timestamps()
   end
