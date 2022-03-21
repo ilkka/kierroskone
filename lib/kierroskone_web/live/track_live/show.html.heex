@@ -68,8 +68,8 @@
         <%= for laptime <- @laptimes do %>
           <tr>
             <td><%= humanize_laptime(laptime) %></td>
-            <td><%= laptime.car.name %> (<%= laptime.car.class.name %>)</td>
-            <td><%= laptime.user.name %></td>
+            <td><%= laptime.car.name %><%= if !is_nil(laptime.car.class), do: " (#{laptime.car.class.name})" %></td>
+            <td><%= if is_nil(laptime.user), do: "Anonymous", else: laptime.user.name %></td>
             <td><%= laptime.inserted_at %></td>
           </tr>
         <% end %>
