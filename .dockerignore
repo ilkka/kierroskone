@@ -1,0 +1,10 @@
+.git
+.devcontainer
+.dockerignore
+Dockerfile
+_build
+deps
+.vscode
+.elixir_ls
+.env
+.env.test
