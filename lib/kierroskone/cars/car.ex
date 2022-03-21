@@ -5,7 +5,7 @@ defmodule Kierroskone.Cars.Car do
   schema "cars" do
     field :name, :string
     belongs_to :class, Kierroskone.Cars.Class
-    has_one :game, through: [:class, :game]
+    belongs_to :game, Kierroskone.Games.Game
 
     timestamps()
   end
@@ -13,7 +13,7 @@ defmodule Kierroskone.Cars.Car do
   @doc false
   def changeset(car, attrs) do
     car
-    |> cast(attrs, [:name, :class_id])
-    |> validate_required([:name, :class_id])
+    |> cast(attrs, [:name, :class_id, :game_id])
+    |> validate_required([:name, :game_id])
   end
 end
