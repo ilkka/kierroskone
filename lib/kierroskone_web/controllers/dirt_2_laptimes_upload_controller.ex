@@ -68,7 +68,8 @@ defmodule KierroskoneWeb.Dirt2LaptimesUploadController do
               Tracks.create_laptime(%{
                 "milliseconds" => floor(Timex.Duration.to_milliseconds(dur)),
                 "track_id" => track.id,
-                "car_id" => car.id
+                "car_id" => car.id,
+                "driven_at" => date
               })
           end
         end
