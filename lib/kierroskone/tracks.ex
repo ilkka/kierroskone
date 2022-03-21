@@ -184,6 +184,16 @@ defmodule Kierroskone.Tracks do
   end
 
   @doc """
+  Helper for getting laptimes by their reported "driven at" time, which for e.g. dirt 2
+  comes from the way we upload the times. This lets us check for duplicates.
+  """
+  def get_laptime_by_driven_at(driven_at, track) do
+    from(lt in Laptime, where: lt.driven_at == ^driven_at and lt.track_id == ^track.id)
+    |> Repo.one()
+    |> Repo.preload([:user, car: [:class]])
+  end
+
+  @doc """
   Creates a laptime.
 
   ## Examples
