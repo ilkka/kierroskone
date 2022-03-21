@@ -134,6 +134,17 @@ defmodule Kierroskone.Cars do
   def get_car!(id), do: Repo.get!(Car, id) |> Repo.preload([:class, :game])
 
   @doc """
+  Try to find car by name.
+  """
+  def get_car_by_name(name, game) do
+    from(c in Car,
+      where: c.name == ^name and c.game_id == ^game.id
+    )
+    |> Repo.one()
+    |> Repo.preload([:class, :game])
+  end
+
+  @doc """
   Creates a car.
 
   ## Examples

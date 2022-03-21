@@ -38,6 +38,18 @@ defmodule Kierroskone.Games do
   def get_game!(id), do: Repo.get!(Game, id)
 
   @doc """
+  Try to find game by name.
+  """
+  def get_game_by_name(name) do
+    from(c in Game,
+      where:
+        c.name ==
+          ^name
+    )
+    |> Repo.one()
+  end
+
+  @doc """
   Creates a game.
 
   ## Examples

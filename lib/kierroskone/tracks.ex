@@ -38,6 +38,15 @@ defmodule Kierroskone.Tracks do
   def get_track!(id), do: Repo.get!(Track, id) |> Repo.preload([:game, :laptimes])
 
   @doc """
+  Get track by name for game.
+  """
+  def get_track_by_name(name, game) do
+    from(t in Track, where: t.name == ^name and t.game_id == ^game.id)
+    |> Repo.one()
+    |> Repo.preload([:game])
+  end
+
+  @doc """
   Creates a track.
 
   ## Examples
