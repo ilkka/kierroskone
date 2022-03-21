@@ -178,7 +178,7 @@ defmodule Kierroskone.Tracks do
         select: [lt.id],
         where: fragment("rank = ?", 1)
 
-    from(lt in Laptime, where: lt.id in subquery(top_laptime_ids))
+    from(lt in Laptime, where: lt.id in subquery(top_laptime_ids) and not is_nil(lt.user_id))
     |> Repo.all()
     |> Repo.preload([:user, car: [:class]])
   end
