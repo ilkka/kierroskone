@@ -68,10 +68,10 @@ defmodule KierroskoneWeb.Router do
     live "/laptimes/:id/show/edit", LaptimeLive.Show, :edit
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", KierroskoneWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", KierroskoneWeb do
+    pipe_through :api
+    resources "/dirt2", Dirt2LaptimesUploadController, only: [:create]
+  end
 
   # Enables LiveDashboard only for development
   #
