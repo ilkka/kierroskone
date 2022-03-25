@@ -18,6 +18,8 @@ defmodule KierroskoneWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
+    get("/dead/tracks", PageController, :tracks)
+    get("/dead/tracks/:id", PageController, :track)
 
     # GAMES
     live("/games", GameLive.Index, :index)

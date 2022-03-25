@@ -1,6 +1,10 @@
 <section class="row">
   <article class="column">
-    <h2>Things</h2>
+    <h2>Things that work</h2>
+    <ul>
+      <li><%= link "Tracks", to: Routes.page_path(@conn, :tracks) %></li>
+    </ul>
+    <h2>Things that don't work</h2>
     <ul>
       <li>
         <%= link "Games", to: Routes.game_index_path(@conn, :index) %>
