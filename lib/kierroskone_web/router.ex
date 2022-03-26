@@ -13,9 +13,7 @@ defmodule KierroskoneWeb.Router do
   pipeline :api do
     plug(:accepts, ["json"])
 
-    plug(KierroskoneWeb.CheckApiAuth,
-      api_token: Application.fetch_env!(:kierroskone, :laptime_api_token)
-    )
+    plug(KierroskoneWeb.CheckApiAuth)
   end
 
   scope "/", KierroskoneWeb do
