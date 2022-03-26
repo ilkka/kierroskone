@@ -4,7 +4,7 @@ defmodule Kierroskone.Tracks.Laptime do
 
   schema "laptimes" do
     field :milliseconds, :integer
-    field :driven_at, :string
+    field :driven_at, :naive_datetime
     belongs_to :user, Kierroskone.Users.User
     belongs_to :track, Kierroskone.Tracks.Track
     belongs_to :car, Kierroskone.Cars.Car
