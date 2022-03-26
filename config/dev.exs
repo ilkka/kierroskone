@@ -26,9 +26,8 @@ config :kierroskone, KierroskoneWeb.Endpoint,
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
-  ]
-
-config :kierroskone, laptime_api_token: "laptime-dev-token"
+  ],
+  laptime_api_token: "laptime-dev-token"
 
 # ## SSL Support
 #

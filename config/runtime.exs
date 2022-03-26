@@ -58,7 +58,7 @@ if config_env() == :prod do
   laptime_api_token =
     System.get_env("LAPTIME_API_TOKEN") || raise "LAPTIME_API_TOKEN env var not set"
 
-  config :kierroskone, laptime_api_token: laptime_api_token
+  config :kierroskone, KierroskoneWeb.Endpoint, laptime_api_token: laptime_api_token
 
   # ## Using releases
   #
