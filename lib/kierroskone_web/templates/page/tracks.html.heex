@@ -2,24 +2,24 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Game</th>
       <th>Overall lap record</th>
       <th>Record holder</th>
-      <th></th>
     </tr>
   </thead>
   <tbody id="tracks">
     <%= for {track, record} <- @tracks do %>
       <tr id={"track-#{track.id}"}>
-        <td><%= track.name %></td>
+        <td><%= link track.name, to: Routes.page_path(@conn, :track, track.id) %></td>
+        <td>
+          <span><%= if is_nil(track.game), do: "Not set", else: track.game.name %></span>
+        </td>
         <%= if is_nil(record) do %>
           <td colspan="2">Not available</td>
         <% else %>
           <td><%= humanize_laptime(record) %></td>
           <td><%= record.user.name %></td>
         <% end %>
-        <td>
-          <span><%= link "Show", to: Routes.page_path(@conn, :track, track.id) %></span>
-        </td>
       </tr>
     <% end %>
   </tbody>

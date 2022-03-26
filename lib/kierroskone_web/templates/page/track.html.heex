@@ -1,23 +1,6 @@
-<h1>Show Track</h1>
+<h1><%= @track.name %><%= if not is_nil(@track.game), do: " (#{@track.game.name})"%></h1>
 
 <ul>
-  <li>
-    <strong>Name:</strong>
-    <%= @track.name %>
-  </li>
-
-  <li>
-    <strong>Game:</strong>
-    <%=
-    cond do
-      is_nil(@track.game) ->
-        "Not selected"
-      true ->
-        @track.game.name
-    end
-    %>
-  </li>
-
   <li>
     <strong>Overall lap record:</strong>
     <%=
