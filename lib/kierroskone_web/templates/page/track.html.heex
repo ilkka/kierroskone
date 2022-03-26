@@ -56,7 +56,7 @@
             <td><%= humanize_laptime(laptime) %></td>
             <td><%= laptime.car.name %><%= if !is_nil(laptime.car.class), do: " (#{laptime.car.class.name})" %></td>
             <td><%= if is_nil(laptime.user), do: link("Claim", to: Routes.page_path(@conn, :claim, laptime.id)), else: laptime.user.name %></td>
-            <td><%= laptime.inserted_at %></td>
+            <td><%= laptime.driven_at %></td>
           </tr>
         <% end %>
       </tbody>
