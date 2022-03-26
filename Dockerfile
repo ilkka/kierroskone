@@ -63,7 +63,7 @@ FROM debian:bullseye-20220316-slim as deploy
 LABEL maintainer="Ilkka Poutanen <ilkka.poutanen@futurice.com>"
 RUN apt-get update \
 	&& export DEBIAN_FRONTEND=noninteractive \
-	&& apt-get install -y libssl1.1 \
+	&& apt-get install -y libssl1.1 postgresql-client\
 	&& rm -rf /var/lib/apt/lists/*
 ARG USERNAME
 ARG USER_UID
