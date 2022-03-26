@@ -73,6 +73,15 @@ defmodule KierroskoneWeb.PageController do
     end
   end
 
+  @doc """
+  List unclaimed laptimes
+  """
+  def unclaimed(conn, _params) do
+    conn
+    |> assign(:laptimes, Tracks.get_unclaimed_laptimes())
+    |> render("unclaimed.html")
+  end
+
   # Helper for getting the logged in user's name (or faking it for dev).
   defp get_logged_in_user_name(conn) do
     case get_req_header(conn, "oidc-data") do

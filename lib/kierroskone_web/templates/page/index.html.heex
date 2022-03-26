@@ -1,8 +1,9 @@
 <section class="row">
   <article class="column">
-    <h2>Things that work</h2>
+    <h2>Things</h2>
     <ul>
       <li><%= link "Tracks", to: Routes.page_path(@conn, :tracks) %></li>
+      <li><%= link "Unclaimed times", to: Routes.page_path(@conn, :unclaimed) %></li>
     </ul>
     <div style="display: none">
     <h2>Things that don't work</h2>

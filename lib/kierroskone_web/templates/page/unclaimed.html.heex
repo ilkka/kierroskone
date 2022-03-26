@@ -1,0 +1,24 @@
+<h1>Unclaimed laptimes for the past week</h1>
+
+<table>
+<thead>
+<tr>
+	<th>Track</th>
+	<th>Car</th>
+	<th>Time</th>
+	<th>Recorded at</th>
+	<th></th>
+</tr>
+</thead>
+<tbody>
+<%= for laptime <- @laptimes do %>
+	<tr>
+		<td><%= laptime.track.name %></td>
+		<td><%= laptime.car.name %><%= if !is_nil(laptime.car.class), do: " (#{laptime.car.class.name})" %></td>
+		<td><%= humanize_laptime(laptime) %></td>
+		<td><%= laptime.driven_at %></td>
+		<td><%= link("Claim", to: Routes.page_path(@conn, :claim, laptime.id)) %></td>
+	</tr>
+<% end %>
+</tbody>
+</table>

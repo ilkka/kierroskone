@@ -163,6 +163,22 @@ defmodule Kierroskone.Tracks do
   end
 
   @doc """
+  Get all unclaimed laptimes sorted by when they were driven, for the past 7 days
+  """
+  def get_unclaimed_laptimes() do
+    a_week_ago = Date.add(DateTime.now!("Europe/Helsinki"), -7)
+
+    from(lt in Laptime,
+      where:
+        (is_nil(lt.user_id) and is_nil(lt.driven_at)) or
+          lt.driven_at > ^NaiveDateTime.new!(a_week_ago, ~T[00:00:00]),
+      order_by: [desc: lt.driven_at]
+    )
+    |> Repo.all()
+    |> Repo.preload([:track, car: [:class]])
+  end
+
+  @doc """
   Get fastest laptime for a track
   """
   def get_overall_record(track) do

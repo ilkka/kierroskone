@@ -21,6 +21,7 @@ defmodule KierroskoneWeb.Router do
     get("/", PageController, :index)
     get("/dead/tracks", PageController, :tracks)
     get("/dead/tracks/:id", PageController, :track)
+    get("/dead/unclaimed", PageController, :unclaimed)
     get("/dead/claim/:id", PageController, :claim)
     post("/dead/claim/:id", PageController, :submit_claim)
 
