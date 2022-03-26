@@ -12,14 +12,46 @@ param (
 	# Path to Dirt laptime recorder thingy.
 	[Parameter(Mandatory = $true)]
 	[System.IO.FileInfo]
-	$LaptimePath
+	$TimeRecorderPath
 )
 
+$LaptimesCsvPath = "${PSScriptRoot}.\laptimes.csv"
+$CsvExportPath = "${TimeRecorderPath}\snapshot.csv"
+
 do {
-	Write-Host "Here I would do the export command in $LaptimePath but can't remember what it is"
-	Write-Host "Here I would check if the CSV changed"
-	Write-Host "Uploading"
-	Import-Csv -Delimiter ';' ${LaptimePath}\laptimes.csv | ConvertTo-Json -AsArray | Invoke-RestMethod -Method Post -ContentType "application/json" $ApiUrl
+	Write-Host "Export current times"
+	# The export bat has the "wait for enter" bit so we just duplicate its functionality here
+	Push-Location $TimeRecorderPath
+	& "sqlite3.exe" -init ".\export-laptimes.sql" ".\dirtrally-laptimes.db" .exit
+	Pop-Location
+	
+	Write-Host "Check for new times"
+	$doUpload = $false
+	# Should we upload? Check that the export was non-empty and that it's different from the previous
+	# file ($LaptimesCsvPath)
+	try {
+		# Upload non-empty? At least 2 lines (header + 1 data line)
+		if ((Get-Content $CsvExportPath | Measure-Object).Count -gt 1) {
+			# Upload different?
+			if ((Compare-Object (Get-Content $LaptimesCsvPath) (Get-Content $CsvExportPath) | Measure-Object).Count -gt 0) {
+				$doUpload = $true
+			}
+		}
+	}
+	catch {
+		# Probably missing stored previous laptimes.csv -> first run
+		Copy-Item -Path $CsvExportPath -Destination $LaptimesCsvPath -Force
+		$doUpload = $true
+	}
+
+	# TODO: use compare-object to get only the _new_ times and upload those
+	if ($doUpload) {
+		Write-Host "Uploading"
+		Import-Csv -Delimiter ';' ${TimeRecorderPath}\laptimes.csv | ConvertTo-Json -AsArray | Invoke-RestMethod -Method Post -ContentType "application/json" $ApiUrl
+	}
+	else {
+		Write-Host "No change, skipping upload"
+	}
 	Write-Host "Sleeping 10 seconds"
 	Start-Sleep -Seconds 10
 } while ($true)
