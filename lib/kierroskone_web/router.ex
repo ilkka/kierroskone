@@ -72,7 +72,7 @@ defmodule KierroskoneWeb.Router do
 
   scope "/api", KierroskoneWeb do
     pipe_through :api
-    resources "/dirt2", Dirt2LaptimesUploadController, only: [:create]
+    resources "/laptime-import/dirt2", Dirt2LaptimesUploadController, only: [:create]
   end
 
   # Enables LiveDashboard only for development
