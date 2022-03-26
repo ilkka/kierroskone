@@ -5,6 +5,7 @@ defmodule Kierroskone.Repo.Migrations.CreateCars do
     create table(:cars) do
       add :name, :string
       add :class_id, references(:classes, on_delete: :nothing)
+      add :game_id, references(:games, on_delete: :nothing)
 
       timestamps()
     end
