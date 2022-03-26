@@ -170,8 +170,9 @@ defmodule Kierroskone.Tracks do
 
     from(lt in Laptime,
       where:
-        (is_nil(lt.user_id) and is_nil(lt.driven_at)) or
-          lt.driven_at > ^NaiveDateTime.new!(a_week_ago, ~T[00:00:00]),
+        is_nil(lt.user_id) and
+          (is_nil(lt.driven_at) or
+             lt.driven_at > ^NaiveDateTime.new!(a_week_ago, ~T[00:00:00])),
       order_by: [desc: lt.driven_at]
     )
     |> Repo.all()
