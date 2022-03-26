@@ -4,6 +4,7 @@
     <ul>
       <li><%= link "Tracks", to: Routes.page_path(@conn, :tracks) %></li>
     </ul>
+    <div style="display: none">
     <h2>Things that don't work</h2>
     <ul>
       <li>
@@ -25,5 +26,6 @@
         <%= link "Laptimes", to: Routes.laptime_index_path(@conn, :index) %>
       </li>
     </ul>
+    </div>
   </article>
 </section>
