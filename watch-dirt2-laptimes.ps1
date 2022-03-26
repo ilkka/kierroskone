@@ -12,7 +12,12 @@ param (
 	# Path to Dirt laptime recorder thingy.
 	[Parameter(Mandatory = $true)]
 	[System.IO.FileInfo]
-	$TimeRecorderPath
+	$TimeRecorderPath,
+
+	# Kierroskone laptimes API token
+	[Parameter(Mandatory = $true)]
+	[String]
+	$ApiToken
 )
 
 $LaptimesCsvPath = "${PSScriptRoot}.\laptimes.csv"
@@ -47,7 +52,7 @@ do {
 	# TODO: use compare-object to get only the _new_ times and upload those
 	if ($doUpload) {
 		Write-Host "Uploading"
-		Import-Csv -Delimiter ';' ${TimeRecorderPath}\laptimes.csv | ConvertTo-Json -AsArray | Invoke-RestMethod -Method Post -ContentType "application/json" $ApiUrl
+		Import-Csv -Delimiter ';' ${TimeRecorderPath}\laptimes.csv | ConvertTo-Json -AsArray | Invoke-RestMethod -Method Post -ContentType "application/json" -Headers @{"x-api-token" = $ApiToken } $ApiUrl
 	}
 	else {
 		Write-Host "No change, skipping upload"
