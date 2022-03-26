@@ -55,6 +55,11 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  laptime_api_token =
+    System.get_env("LAPTIME_API_TOKEN") || raise "LAPTIME_API_TOKEN env var not set"
+
+  config :kierroskone, laptime_api_token: laptime_api_token
+
   # ## Using releases
   #
   # If you are doing OTP releases, you need to instruct Phoenix

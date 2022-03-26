@@ -28,6 +28,8 @@ config :kierroskone, KierroskoneWeb.Endpoint,
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
+config :kierroskone, laptime_api_token: "laptime-dev-token"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

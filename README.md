@@ -15,3 +15,11 @@ Attach to the running container and run
 ```shell
 ./kierroskone/bin/kierroskone eval "Kierroskone.Release.migrate"
 ```
+
+## Testing the laptime API endpoint
+
+For Dirt 2.0 (in PowerShell) do
+
+```shell
+Import-Csv -Delimiter ';' laptimes.csv | ConvertTo-Json -AsArray | Invoke-RestMethod -Method Post -ContentType application/json -Headers @{"x-api-token" = "laptime-dev-token"} http://localhost:4000/api/laptime-import/dirt2
+```
