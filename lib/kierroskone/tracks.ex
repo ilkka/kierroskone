@@ -140,8 +140,22 @@ defmodule Kierroskone.Tracks do
       ** (Ecto.NoResultsError)
 
   """
-  def get_laptime!(id), do: Repo.get!(Laptime, id)
+  def get_laptime!(id), do: Repo.get!(Laptime, id) |> Repo.preload([:user, :track, car: [:class]])
 
+  @doc """
+  Get a laptime by ID but only if it is unclaimed
+  """
+  def get_unclaimed_laptime(id) do
+    from(lt in Laptime,
+      where: lt.id == ^id and is_nil(lt.user_id)
+    )
+    |> Repo.one()
+    |> Repo.preload([:track, car: [:class]])
+  end
+
+  @doc """
+  Get all laptimes
+  """
   def get_laptimes(track) do
     from(lt in Laptime, where: lt.track_id == ^track.id, order_by: [asc: lt.milliseconds])
     |> Repo.all()

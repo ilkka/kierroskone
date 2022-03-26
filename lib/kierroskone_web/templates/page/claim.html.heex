@@ -1,0 +1,18 @@
+<h1>Claim laptime for <%= @name %></h1>
+
+<dl>
+<dt>Track:</dt>
+<dd><%= @laptime.track.name %></dd>
+<dt>Car:</dt>
+<dd><%= @laptime.car.name %></dd>
+<dt>Class:</dt>
+<dd><%= if is_nil(@laptime.car.class), do: "Unknown class", else: @laptime.car.class.name %></dd>
+<dt>Time:</dt>
+<dd><%= humanize_laptime(@laptime) %></dd>
+<dt>Driven at:</dt>
+<dd><%= @laptime.driven_at %></dd>
+</dl>
+
+<p><em>Claim this laptime for <%= @name %>?</em></p>
+
+<%= button("Claim", to: Routes.page_path(@conn, :submit_claim, @laptime.id)) %>

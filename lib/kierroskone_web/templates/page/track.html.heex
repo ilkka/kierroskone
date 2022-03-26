@@ -25,7 +25,7 @@
       is_nil(@record) ->
         "Not available"
       true ->
-        "#{humanize_laptime(@record)} by #{@record.user.name} on #{@record.inserted_at} in a #{@record.car.name} (#{@record.car.class.name})"
+        "#{humanize_laptime(@record)} by #{@record.user.name} on #{@record.inserted_at} in a #{@record.car.name}"
     end
     %>
   </li>
@@ -34,7 +34,7 @@
     <strong>Lap records per car:</strong>
     <ul>
       <%= for record <- @records do %>
-      <li><%= record.car.name %> (<%= record.car.class.name %>): <%= humanize_laptime(record) %> by <%= record.user.name %> on <%= record.inserted_at %></li>
+      <li><%= record.car.name %><%= if not is_nil(record.car.class), do: " (#{record.car.class.name})" %>: <%= humanize_laptime(record) %> by <%= record.user.name %> on <%= record.inserted_at %></li>
       <% end %>
     </ul>
   </li>

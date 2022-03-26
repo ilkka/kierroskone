@@ -51,7 +51,8 @@ defmodule Kierroskone.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~>1.6", only: [:dev, :test], runtime: false},
       {:timex, "~> 3.7.7"},
-      {:ex_json_schema, "~> 0.9.1"}
+      {:ex_json_schema, "~> 0.9.1"},
+      {:jose, "~> 1.11.2"}
     ]
   end
 

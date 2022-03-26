@@ -17,9 +17,14 @@ defmodule KierroskoneWeb.Router do
   scope "/", KierroskoneWeb do
     pipe_through(:browser)
 
+    # Traditional artesanal server side rendered routes
     get("/", PageController, :index)
     get("/dead/tracks", PageController, :tracks)
     get("/dead/tracks/:id", PageController, :track)
+    get("/dead/claim/:id", PageController, :claim)
+    post("/dead/claim/:id", PageController, :submit_claim)
+
+    # Currently non-working (in prod) liveview stuff below this
 
     # GAMES
     live("/games", GameLive.Index, :index)

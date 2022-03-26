@@ -22,6 +22,19 @@ defmodule Kierroskone.Users do
   end
 
   @doc """
+  Get user by name or create if did not exist.
+  """
+  def get_user_by_name_or_create(name) do
+    case from(t in User, where: t.name == ^name) |> Repo.one() do
+      nil ->
+        Repo.insert(%User{name: name}, returning: true)
+
+      user ->
+        {:ok, user}
+    end
+  end
+
+  @doc """
   Gets a single user.
 
   Raises `Ecto.NoResultsError` if the User does not exist.
