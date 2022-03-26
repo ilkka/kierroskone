@@ -26,6 +26,8 @@ config :kierroskone, KierroskoneWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :kierroskone, Kierroskone.Mailer, adapter: Swoosh.Adapters.Local
 
+config :kierroskone, laptime_api_token: nil
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
