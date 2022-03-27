@@ -27,7 +27,7 @@ do {
 	Write-Host "Export current times"
 	# The export bat has the "wait for enter" bit so we just duplicate its functionality here
 	Push-Location $TimeRecorderPath
-	& "sqlite3.exe" -init ".\export-laptimes.sql" ".\dirtrally-laptimes.db" .exit
+	& ".\sqlite3.exe" -init ".\export-laptimes.sql" ".\dirtrally-laptimes.db" .exit
 	Pop-Location
 	
 	Write-Host "Check for new times"
