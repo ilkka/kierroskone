@@ -45,12 +45,12 @@ do {
 	}
 	catch {
 		# Probably missing stored previous laptimes.csv -> first run
-		Copy-Item -Path $CsvExportPath -Destination $LaptimesCsvPath -Force
 		$doUpload = $true
 	}
-
+	
 	# TODO: use compare-object to get only the _new_ times and upload those
 	if ($doUpload) {
+		Copy-Item -Path $CsvExportPath -Destination $LaptimesCsvPath -Force
 		Write-Host "Uploading"
 		Import-Csv -Delimiter ';' ${LaptimesCsvPath} | ConvertTo-Json -AsArray | Invoke-RestMethod -Method Post -ContentType "application/json" -Headers @{"x-api-token" = $ApiToken } $ApiUrl
 	}
