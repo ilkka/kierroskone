@@ -52,7 +52,7 @@ do {
 	if ($doUpload) {
 		Copy-Item -Path $CsvExportPath -Destination $LaptimesCsvPath -Force
 		Write-Host "Uploading"
-		Import-Csv -Delimiter ';' ${LaptimesCsvPath} | ConvertTo-Json -AsArray | Invoke-RestMethod -Method Post -ContentType "application/json" -Headers @{"x-api-token" = $ApiToken } $ApiUrl
+		Import-Csv -Delimiter ';' ${LaptimesCsvPath} | ConvertTo-Json -AsArray | Invoke-RestMethod -Method Post -ContentType "application/json; charset=utf-8" -Headers @{"x-api-token" = $ApiToken } $ApiUrl
 	}
 	else {
 		Write-Host "No change, skipping upload"
