@@ -15,9 +15,10 @@ defmodule Kierroskone.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Kierroskone.PubSub},
       # Start the Endpoint (http/https)
-      KierroskoneWeb.Endpoint
+      KierroskoneWeb.Endpoint,
       # Start a worker by calling: Kierroskone.Worker.start_link(arg)
       # {Kierroskone.Worker, arg}
+      TelemetryServer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
