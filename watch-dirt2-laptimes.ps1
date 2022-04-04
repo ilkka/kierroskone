@@ -20,7 +20,7 @@ param (
 	$ApiToken
 )
 
-$LaptimesCsvPath = "${PSScriptRoot}.\laptimes.csv"
+$LaptimesCsvPath = "${PSScriptRoot}\laptimes.csv"
 $CsvExportPath = "${TimeRecorderPath}\snapshot.csv"
 
 do {
