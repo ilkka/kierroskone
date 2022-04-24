@@ -12,9 +12,6 @@ import threading
 kierroskone = None
 title = "Kierroskone"
 
-telemetry_store = []
-
-# Future reference
 telemetry_keys = ['AccG', 'Aero', 'BestLap', 'Brake', 'CGHeight', 'CamberDeg', 'CamberRad', 'Caster',
                   'Clutch', 'CurrentTyresCoreTemp', 'DY', 'DriftBestLap', 'DriftLastLap', 'DriftPoints',
                   'DriveTrainSpeed', 'DrsAvailable', 'DrsEnabled', 'DynamicPressure', 'ERSCurrentKJ', 'ERSDelivery',
@@ -69,7 +66,7 @@ class Kierroskone:
         self.base_dir = 'apps/python/' + title
         self.config_ini = self.base_dir + '/config.ini'
         self.config_header = 'SETTINGS'
-        self.update_interval = 1  # seconds
+        self.update_interval = 0.5  # seconds
         self.app = None
         self.label_current_best = None
         self.server = ""
@@ -79,6 +76,8 @@ class Kierroskone:
         self.current_best = 0
         self.status_text = "Waiting for hot laps"
         self.label_state = None
+        self.telemetry_enabled = False
+        self.telemetry_store = []
 
         try:
             if exists(self.config_ini):
@@ -137,9 +136,12 @@ class Kierroskone:
         cfg.read(self.config_ini)
         self.server = cfg[self.config_header].get('kierroskone_server', 'localhost')
         self.apitoken = cfg[self.config_header].get('kierroskone_apitoken', '')
+        telemetry_flag = cfg[self.config_header].get('kierroskone_include_telemetry', 'false')
+        self.telemetry_enabled = telemetry_flag == "true"
         log('Using server ' + self.server)
 
     def update(self, time_delta):
+        global telemetry_keys
         self.timer += time_delta
 
         # Once every update_interval seconds
@@ -151,10 +153,10 @@ class Kierroskone:
             best_lap = ac.getCarState(0, acsys.CS.BestLap)
             speed = ac.getCarState(0, acsys.CS.SpeedKMH)
 
-            # telemetry_item = {}
-            # for key in telemetry_keys:
-            #     telemetry_item[key] = ac.getCarState(0, getattr(acsys.CS, key))
-            # telemetry_store.append(telemetry_item)
+            telemetry_item = {}
+            for key in telemetry_keys:
+                telemetry_item[key] = ac.getCarState(0, getattr(acsys.CS, key))
+            self.telemetry_store.append(telemetry_item)
 
             self.lap_top_speed = max(self.lap_top_speed, speed)
             # New lap started
@@ -168,6 +170,7 @@ class Kierroskone:
                     self.send_laptime_to_server()
                 self.current_lap = lap
                 self.lap_top_speed = 0
+                self.telemetry_store = []
                 self.draw()
 
     def send_request(self, event, url, json_payload, cb):
@@ -210,7 +213,16 @@ class Kierroskone:
             }
         ]
 
-        json_payload = str(json.dumps(payload)).encode('utf-8')
+        if self.telemetry_enabled:
+            payload[0]["Telemetry"] = self.telemetry_store
+
+        json_payload_str = json.dumps(payload)
+        json_payload = str(json_payload_str).encode('utf-8')
+        saved_path = os.path.join(os.path.dirname(__file__), "saved_request.json")
+        log(saved_path)
+        log(json_payload_str)
+        with open(saved_path, "w") as request_file:
+            request_file.write(json_payload_str)
         event = threading.Event()
         runner = threading.Thread(target=self.send_request, args=(event, url, json_payload, self.request_finished))
         runner.start()

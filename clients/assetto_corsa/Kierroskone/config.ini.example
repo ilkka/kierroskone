@@ -1,0 +1,5 @@
+[SETTINGS]
+kierroskone_server=http://localhost:4000
+kierroskone_apitoken=laptime-dev-token
+kierroskone_include_telemetry=false
+
