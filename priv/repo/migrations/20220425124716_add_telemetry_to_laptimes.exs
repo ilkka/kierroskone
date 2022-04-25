@@ -3,7 +3,7 @@ defmodule Kierroskone.Repo.Migrations.AddTelemetryToLaptimes do
 
   def change do
     alter table(:laptimes) do
-      add :telemetry, :string
+      add :telemetry, :text
     end
   end
 end

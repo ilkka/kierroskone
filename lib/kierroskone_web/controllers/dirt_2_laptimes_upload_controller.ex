@@ -24,7 +24,8 @@ defmodule KierroskoneWeb.Dirt2LaptimesUploadController do
             "Track" => %{"type" => "string"},
             "Date" => %{"type" => "string"},
             "Time" => %{"type" => "string"},
-            "Topspeed" => %{"type" => "string"}
+            "Topspeed" => %{"type" => "string"},
+            "Telemetry" => %{"type" => "string"}
           },
           "required" => ["Car", "Track", "Date", "Time", "Topspeed"]
         }
@@ -38,7 +39,8 @@ defmodule KierroskoneWeb.Dirt2LaptimesUploadController do
               "Track" => track_name,
               "Date" => date,
               "Time" => time,
-              "Topspeed" => _topspeed
+              "Topspeed" => _topspeed,
+              "Telemetry" => telemetry
             } <- laptimes do
           car =
             case Cars.get_car_by_name(car_name, dirt) do
@@ -69,7 +71,8 @@ defmodule KierroskoneWeb.Dirt2LaptimesUploadController do
                 "milliseconds" => floor(Timex.Duration.to_milliseconds(dur)),
                 "track_id" => track.id,
                 "car_id" => car.id,
-                "driven_at" => date
+                "driven_at" => date,
+                "telemetry" => telemetry
               })
           end
         end
