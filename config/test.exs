@@ -18,7 +18,8 @@ config :kierroskone, Kierroskone.Repo,
 config :kierroskone, KierroskoneWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "8tzn5kZdymzXOJNm8pLgLq2Z2wLJmcTqVGvaBgISlTF2cbPwn1NqA8QF0DKGNJc5",
-  server: false
+  server: false,
+  laptime_api_token: "laptime-test-token"
 
 # In test we don't send emails.
 config :kierroskone, Kierroskone.Mailer, adapter: Swoosh.Adapters.Test
