@@ -6,7 +6,7 @@ defmodule KierroskoneWeb.LaptimeLiveTest do
   import Kierroskone.GamesFixtures
   import Kierroskone.CarsFixtures
 
-  @create_attrs %{milliseconds: 42}
+  # @create_attrs %{milliseconds: 42}
   @update_attrs %{milliseconds: 43}
   @invalid_attrs %{milliseconds: nil}
 
@@ -27,26 +27,26 @@ defmodule KierroskoneWeb.LaptimeLiveTest do
       assert html =~ "Listing Laptimes"
     end
 
-    test "saves new laptime", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, Routes.laptime_index_path(conn, :index))
+    # test "saves new laptime", %{conn: conn} do
+    #   {:ok, index_live, _html} = live(conn, Routes.laptime_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Laptime") |> render_click() =~
-               "New Laptime"
+    #   assert index_live |> element("a", "New Laptime") |> render_click() =~
+    #            "New Laptime"
 
-      assert_patch(index_live, Routes.laptime_index_path(conn, :new))
+    #   assert_patch(index_live, Routes.laptime_index_path(conn, :new))
 
-      assert index_live
-             |> form("#laptime-form", laptime: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+    #   assert index_live
+    #          |> form("#laptime-form", laptime: @invalid_attrs)
+    #          |> render_change() =~ "can&#39;t be blank"
 
-      {:ok, _, html} =
-        index_live
-        |> form("#laptime-form", laptime: @create_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.laptime_index_path(conn, :index))
+    #   {:ok, _, html} =
+    #     index_live
+    #     |> form("#laptime-form", laptime: @create_attrs)
+    #     |> render_submit()
+    #     |> follow_redirect(conn, Routes.laptime_index_path(conn, :index))
 
-      assert html =~ "Laptime created successfully"
-    end
+    #   assert html =~ "Laptime created successfully"
+    # end
 
     test "updates laptime in listing", %{conn: conn, laptime: laptime} do
       {:ok, index_live, _html} = live(conn, Routes.laptime_index_path(conn, :index))

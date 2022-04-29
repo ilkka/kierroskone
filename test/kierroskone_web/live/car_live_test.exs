@@ -5,7 +5,7 @@ defmodule KierroskoneWeb.CarLiveTest do
   import Kierroskone.CarsFixtures
   import Kierroskone.GamesFixtures
 
-  @create_attrs %{name: "some name"}
+  # @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
 
@@ -25,27 +25,27 @@ defmodule KierroskoneWeb.CarLiveTest do
       assert html =~ car.name
     end
 
-    test "saves new car", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, Routes.car_index_path(conn, :index))
+    # test "saves new car", %{conn: conn} do
+    #   {:ok, index_live, _html} = live(conn, Routes.car_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Car") |> render_click() =~
-               "New Car"
+    #   assert index_live |> element("a", "New Car") |> render_click() =~
+    #            "New Car"
 
-      assert_patch(index_live, Routes.car_index_path(conn, :new))
+    #   assert_patch(index_live, Routes.car_index_path(conn, :new))
 
-      assert index_live
-             |> form("#car-form", car: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+    #   assert index_live
+    #          |> form("#car-form", car: @invalid_attrs)
+    #          |> render_change() =~ "can&#39;t be blank"
 
-      {:ok, _, html} =
-        index_live
-        |> form("#car-form", car: @create_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.car_index_path(conn, :index))
+    #   {:ok, _, html} =
+    #     index_live
+    #     |> form("#car-form", car: @create_attrs)
+    #     |> render_submit()
+    #     |> follow_redirect(conn, Routes.car_index_path(conn, :index))
 
-      assert html =~ "Car created successfully"
-      assert html =~ "some name"
-    end
+    #   assert html =~ "Car created successfully"
+    #   assert html =~ "some name"
+    # end
 
     test "updates car in listing", %{conn: conn, car: car} do
       {:ok, index_live, _html} = live(conn, Routes.car_index_path(conn, :index))

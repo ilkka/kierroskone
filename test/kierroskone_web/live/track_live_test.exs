@@ -5,7 +5,7 @@ defmodule KierroskoneWeb.TrackLiveTest do
   import Kierroskone.TracksFixtures
   import Kierroskone.GamesFixtures
 
-  @create_attrs %{name: "some name"}
+  # @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
 
@@ -25,27 +25,27 @@ defmodule KierroskoneWeb.TrackLiveTest do
       assert html =~ track.name
     end
 
-    test "saves new track", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, Routes.track_index_path(conn, :index))
+    # test "saves new track", %{conn: conn} do
+    #   {:ok, index_live, _html} = live(conn, Routes.track_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Track") |> render_click() =~
-               "New Track"
+    #   assert index_live |> element("a", "New Track") |> render_click() =~
+    #            "New Track"
 
-      assert_patch(index_live, Routes.track_index_path(conn, :new))
+    #   assert_patch(index_live, Routes.track_index_path(conn, :new))
 
-      assert index_live
-             |> form("#track-form", track: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+    #   assert index_live
+    #          |> form("#track-form", track: @invalid_attrs)
+    #          |> render_change() =~ "can&#39;t be blank"
 
-      {:ok, _, html} =
-        index_live
-        |> form("#track-form", track: @create_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.track_index_path(conn, :index))
+    #   {:ok, _, html} =
+    #     index_live
+    #     |> form("#track-form", track: @create_attrs)
+    #     |> render_submit()
+    #     |> follow_redirect(conn, Routes.track_index_path(conn, :index))
 
-      assert html =~ "Track created successfully"
-      assert html =~ "some name"
-    end
+    #   assert html =~ "Track created successfully"
+    #   assert html =~ "some name"
+    # end
 
     test "updates track in listing", %{conn: conn, track: track} do
       {:ok, index_live, _html} = live(conn, Routes.track_index_path(conn, :index))
