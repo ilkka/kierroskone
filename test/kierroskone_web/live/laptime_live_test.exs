@@ -3,13 +3,18 @@ defmodule KierroskoneWeb.LaptimeLiveTest do
 
   import Phoenix.LiveViewTest
   import Kierroskone.TracksFixtures
+  import Kierroskone.GamesFixtures
+  import Kierroskone.CarsFixtures
 
   @create_attrs %{milliseconds: 42}
   @update_attrs %{milliseconds: 43}
   @invalid_attrs %{milliseconds: nil}
 
   defp create_laptime(_) do
-    laptime = laptime_fixture()
+    game = game_fixture()
+    track = track_fixture(%{game_id: game.id})
+    car = car_fixture(%{game_id: game.id})
+    laptime = laptime_fixture(%{track_id: track.id, game_id: game.id, car_id: car.id})
     %{laptime: laptime}
   end
 

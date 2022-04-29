@@ -3,13 +3,15 @@ defmodule KierroskoneWeb.TrackLiveTest do
 
   import Phoenix.LiveViewTest
   import Kierroskone.TracksFixtures
+  import Kierroskone.GamesFixtures
 
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
 
   defp create_track(_) do
-    track = track_fixture()
+    game = game_fixture()
+    track = track_fixture(%{game_id: game.id})
     %{track: track}
   end
 

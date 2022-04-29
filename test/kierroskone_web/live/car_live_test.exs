@@ -3,13 +3,15 @@ defmodule KierroskoneWeb.CarLiveTest do
 
   import Phoenix.LiveViewTest
   import Kierroskone.CarsFixtures
+  import Kierroskone.GamesFixtures
 
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
 
   defp create_car(_) do
-    car = car_fixture()
+    game = game_fixture()
+    car = car_fixture(%{game_id: game.id})
     %{car: car}
   end
 
