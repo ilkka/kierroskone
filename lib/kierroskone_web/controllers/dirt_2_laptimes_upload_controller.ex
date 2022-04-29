@@ -25,7 +25,7 @@ defmodule KierroskoneWeb.Dirt2LaptimesUploadController do
             "Date" => %{"type" => "string"},
             "Time" => %{"type" => "string"},
             "Topspeed" => %{"type" => "string"},
-            "Telemetry" => %{"type" => "string"}
+            "Telemetry" => %{"type" => "array"}
           },
           "required" => ["Car", "Track", "Date", "Time", "Topspeed"]
         }
