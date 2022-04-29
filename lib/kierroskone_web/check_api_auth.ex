@@ -10,13 +10,13 @@ defmodule KierroskoneWeb.CheckApiAuth do
     case get_req_header(conn, "x-api-token") do
       [token] ->
         if token != config[:laptime_api_token] do
-          raise "nope"
+          conn |> send_resp(401, "Unauthorized") |> halt
+        else
+          conn
         end
 
       _ ->
-        raise "double nope"
+        conn |> send_resp(401, "Unauthorized") |> halt
     end
-
-    conn
   end
 end
