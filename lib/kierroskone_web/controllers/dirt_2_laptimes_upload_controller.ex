@@ -55,33 +55,39 @@ defmodule KierroskoneWeb.Dirt2LaptimesUploadController do
 
   def create(conn, %{"_json" => laptimes}) do
     dirt = get_or_create_game()
-
+    Logger.info("validating input")
     case ExJsonSchema.Validator.validate(@laptimes_schema, laptimes) do
       :ok ->
-        for %{
-              "Car" => car_name,
-              "Track" => track_name,
-              "Date" => date,
-              "Time" => time,
-              "Topspeed" => _topspeed,
-              "Telemetry" => telemetry
-            } <- laptimes do
+        for laptime <- laptimes do
+          %{
+            "Car" => car_name,
+            "Track" => track_name,
+            "Date" => date,
+            "Time" => time
+          } = laptime
           car = get_or_create_car(car_name, dirt)
-
           track = get_or_create_track(track_name, dirt)
 
+          Logger.info("Looking for run on #{date} at #{track.name}")
           if is_nil(Tracks.get_laptime_by_driven_at(date, track)) do
             # No previous laptime with same original timestamp -> good to store as new
             {:ok, dur} = Timex.Duration.parse(String.replace(time, ~r/^(.*):(.*)$/, "PT\\1M\\2S"))
 
+            # TODO: store top speed
+            new_laptime =  %{
+              "milliseconds" => floor(Timex.Duration.to_milliseconds(dur)),
+              "track_id" => track.id,
+              "car_id" => car.id,
+              "driven_at" => date,
+              "telemetry" => nil
+            }
+              
             {:ok, _} =
-              Tracks.create_laptime(%{
-                "milliseconds" => floor(Timex.Duration.to_milliseconds(dur)),
-                "track_id" => track.id,
-                "car_id" => car.id,
-                "driven_at" => date,
-                "telemetry" => telemetry
-              })
+              if Map.has_key?(laptime, "Telemetry") do
+                Tracks.create_laptime(Map.put(new_laptime, "telemetry", Map.fetch!(laptime, "Telemetry")))
+              else
+                Tracks.create_laptime(new_laptime)
+              end
           end
         end
 
