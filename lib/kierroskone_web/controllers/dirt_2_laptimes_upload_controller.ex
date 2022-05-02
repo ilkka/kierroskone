@@ -15,7 +15,7 @@ defmodule KierroskoneWeb.Dirt2LaptimesUploadController do
                          "Topspeed" => %{"type" => "string"},
                          "Telemetry" => %{"type" => "array"}
                        },
-                       "required" => ["Car", "Track", "Date", "Time", "Topspeed"]
+                       "required" => ["Car", "Track", "Date", "Time"]
                      }
                    }
                    |> ExJsonSchema.Schema.resolve()
