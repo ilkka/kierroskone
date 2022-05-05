@@ -1,49 +1,40 @@
 <h1><%= @track.name %><%= if not is_nil(@track.game), do: " (#{@track.game.name})"%></h1>
 
-<ul>
-  <li>
-    <strong>Overall lap record:</strong>
-    <%=
-    cond do
-      is_nil(@record) ->
-        "Not available"
-      true ->
-        "#{humanize_laptime(@record)} by #{@record.user.name} on #{@record.inserted_at} in a #{@record.car.name}"
-    end
-    %>
-  </li>
+<h2>Overall lap record:</h2>
+<%=
+cond do
+  is_nil(@record) ->
+    "Not available"
+  true ->
+    "#{humanize_laptime(@record)} by #{@record.user.name} on #{@record.inserted_at} in a #{@record.car.name}"
+end
+%>
 
-  <li>
-    <strong>Lap records per car:</strong>
-    <ul>
-      <%= for record <- @records do %>
-      <li><%= record.car.name %><%= if not is_nil(record.car.class), do: " (#{record.car.class.name})" %>: <%= humanize_laptime(record) %> by <%= record.user.name %> on <%= record.inserted_at %></li>
-      <% end %>
-    </ul>
-  </li>
-  
-  <li>
-    <strong>Laptimes:</strong>
-    <table>
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Car</th>
-          <th>Driver</th>
-          <th>Recorded at</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%= for laptime <- @laptimes do %>
-          <tr>
-            <td><%= humanize_laptime(laptime) %></td>
-            <td><%= laptime.car.name %><%= if !is_nil(laptime.car.class), do: " (#{laptime.car.class.name})" %></td>
-            <td><%= if is_nil(laptime.user), do: link("Claim", to: Routes.page_path(@conn, :claim, laptime.id)), else: laptime.user.name %></td>
-            <td><%= laptime.driven_at %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </li>
-  
+<h2>Lap records per car:</h2>
+<ul>
+  <%= for record <- @records do %>
+  <li><%= record.car.name %><%= if not is_nil(record.car.class), do: " (#{record.car.class.name})" %>: <%= humanize_laptime(record) %> by <%= record.user.name %> on <%= record.inserted_at %></li>
+  <% end %>
 </ul>
+
+<h2>Laptimes:</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Car</th>
+      <th>Driver</th>
+      <th>Recorded at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for laptime <- @laptimes do %>
+      <tr>
+        <td><%= link(humanize_laptime(laptime), to: Routes.page_path(@conn, :laptime, laptime.id)) %></td>
+        <td><%= laptime.car.name %><%= if !is_nil(laptime.car.class), do: " (#{laptime.car.class.name})" %></td>
+        <td><%= if is_nil(laptime.user), do: link("Claim", to: Routes.page_path(@conn, :claim, laptime.id)), else: laptime.user.name %></td>
+        <td><%= laptime.driven_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
