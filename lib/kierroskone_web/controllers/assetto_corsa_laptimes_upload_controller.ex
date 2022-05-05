@@ -2,6 +2,7 @@ defmodule KierroskoneWeb.AssettoCorsaLaptimesUploadController do
   use KierroskoneWeb, :controller
   require Logger
   alias Kierroskone.{Cars, Games, Tracks}
+  alias Kierroskone.Tracks.Laptime
 
   def create(conn, %{"_json" => laptimes}) do
     assetto_corsa =
@@ -34,14 +35,13 @@ defmodule KierroskoneWeb.AssettoCorsaLaptimesUploadController do
 
     case ExJsonSchema.Validator.validate(laptimes_schema, laptimes) do
       :ok ->
-        for %{
-              "Car" => car_name,
-              "Track" => track_name,
-              "Date" => date,
-              "Time" => time,
-              "Topspeed" => _topspeed,
-              "Telemetry" => telemetry
-            } <- laptimes do
+        for laptime <- laptimes do
+          %{
+            "Car" => car_name,
+            "Track" => track_name,
+            "Date" => date,
+            "Time" => time
+          } = laptime
           car =
             case Cars.get_car_by_name(car_name, assetto_corsa) do
               nil ->
@@ -68,14 +68,17 @@ defmodule KierroskoneWeb.AssettoCorsaLaptimesUploadController do
             # No previous laptime with same original timestamp -> good to store as new
             {:ok, dur} = Timex.Duration.parse(String.replace(time, ~r/^(.*):(.*)$/, "PT\\1M\\2S"))
 
-            {:ok, _} =
+            {:ok, %Laptime{id: laptime_id}} =
               Tracks.create_laptime(%{
                 "milliseconds" => floor(Timex.Duration.to_milliseconds(dur)),
                 "track_id" => track.id,
                 "car_id" => car.id,
-                "driven_at" => date,
-                "telemetry" => telemetry
-              })
+                "driven_at" => date
+            })
+            
+            if Map.has_key?(laptime, "Telemetry") do
+              {:ok, _} = Tracks.add_telemetry(laptime_id, %{data: Map.fetch!(laptime, "Telemetry")})
+            end
           end
         end
 

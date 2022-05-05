@@ -2,6 +2,7 @@ defmodule KierroskoneWeb.Dirt2LaptimesUploadController do
   use KierroskoneWeb, :controller
   require Logger
   alias Kierroskone.{Cars, Games, Tracks}
+  alias Kierroskone.Tracks.Laptime
 
   @laptimes_schema %{
                      "type" => "array",
@@ -74,20 +75,17 @@ defmodule KierroskoneWeb.Dirt2LaptimesUploadController do
             {:ok, dur} = Timex.Duration.parse(String.replace(time, ~r/^(.*):(.*)$/, "PT\\1M\\2S"))
 
             # TODO: store top speed
-            new_laptime =  %{
-              "milliseconds" => floor(Timex.Duration.to_milliseconds(dur)),
-              "track_id" => track.id,
-              "car_id" => car.id,
-              "driven_at" => date,
-              "telemetry" => nil
-            }
+            {:ok, %Laptime{id: laptime_id}} =  
+              Tracks.create_laptime(%{
+                "milliseconds" => floor(Timex.Duration.to_milliseconds(dur)),
+                "track_id" => track.id,
+                "car_id" => car.id,
+                "driven_at" => date
+              })
               
-            {:ok, _} =
-              if Map.has_key?(laptime, "Telemetry") do
-                Tracks.create_laptime(Map.put(new_laptime, "telemetry", Map.fetch!(laptime, "Telemetry")))
-              else
-                Tracks.create_laptime(new_laptime)
-              end
+            if Map.has_key?(laptime, "Telemetry") do
+              {:ok, _} = Tracks.add_telemetry(laptime_id, %{data: Map.fetch!(laptime, "Telemetry")})
+            end
           end
         end
 

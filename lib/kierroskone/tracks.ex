@@ -112,6 +112,7 @@ defmodule Kierroskone.Tracks do
   end
 
   alias Kierroskone.Tracks.Laptime
+  alias Kierroskone.Tracks.Telemetry
 
   @doc """
   Returns the list of laptimes.
@@ -239,6 +240,15 @@ defmodule Kierroskone.Tracks do
   def create_laptime(attrs \\ %{}) do
     %Laptime{}
     |> Laptime.changeset(attrs)
+    |> Repo.insert()
+  end
+  
+  @doc """
+  Create a telemetry record for a laptime.
+  """
+  def add_telemetry(laptime_id, attrs \\ %{}) do
+    %Telemetry{}
+    |> Telemetry.changeset(Map.put(attrs, :laptime_id, laptime_id))
     |> Repo.insert()
   end
 
