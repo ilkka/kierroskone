@@ -25,6 +25,7 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import visualise from "./telemetry_visualisation"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
@@ -43,3 +44,13 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+let visualisation = document.getElementById('telemetry-visualisation')
+console.log(visualisation)
+if (visualisation) {
+  let laptimeId = visualisation.getAttribute("data-laptime-id")
+  if (laptimeId) {
+    fetch(`/dead/laptimes/${laptimeId}/telemetry`).then((response) => response.json()).then((telemetry) => {
+      visualise(visualisation, telemetry)
+    })
+  }
+}
