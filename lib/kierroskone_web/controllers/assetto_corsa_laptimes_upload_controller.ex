@@ -25,7 +25,7 @@ defmodule KierroskoneWeb.AssettoCorsaLaptimesUploadController do
             "Date" => %{"type" => "string"},
             "Time" => %{"type" => "string"},
             "Topspeed" => %{"type" => "string"},
-            "Telemetry" => %{"type" => "string"}
+            "Telemetry" => %{"type" => "array"}
           },
           "required" => ["Car", "Track", "Date", "Time", "Topspeed"]
         }
@@ -55,7 +55,9 @@ defmodule KierroskoneWeb.AssettoCorsaLaptimesUploadController do
           track =
             case Tracks.get_track_by_name(track_name, assetto_corsa) do
               nil ->
-                {:ok, track} = Tracks.create_track(%{"name" => track_name, "game_id" => assetto_corsa.id})
+                {:ok, track} =
+                  Tracks.create_track(%{"name" => track_name, "game_id" => assetto_corsa.id})
+
                 track
 
               track ->
