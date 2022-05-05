@@ -88,7 +88,6 @@ defmodule KierroskoneWeb.PageController do
   def laptime(conn, %{"id" => laptime_id}) do
     conn
     |> assign(:laptime, Tracks.get_laptime!(laptime_id))
-    |> assign(:telemetry, Tracks.get_telemetry(laptime_id))
     |> render("laptime.html")
   end
 
