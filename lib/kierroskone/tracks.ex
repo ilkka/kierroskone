@@ -142,6 +142,15 @@ defmodule Kierroskone.Tracks do
 
   """
   def get_laptime!(id), do: Repo.get!(Laptime, id) |> Repo.preload([:user, :track, car: [:class]])
+  
+  @doc """
+  Get telemetry for a single laptime or `nil` if telemetry does not exist.
+  """
+  def get_telemetry(laptime_id) do
+    from(tel in Telemetry, where: tel.laptime_id == ^laptime_id)
+    |> Repo.one()
+    |> Repo.preload([:laptime])
+  end
 
   @doc """
   Get a laptime by ID but only if it is unclaimed
