@@ -2,7 +2,7 @@ import Config
 
 # Configure your database
 config :kierroskone, Kierroskone.Repo,
-  username: "postgres",
+  username: "kierroskone",
   password: "postgres",
   hostname: "localhost",
   database: "kierroskone_dev",

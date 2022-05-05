@@ -4,6 +4,8 @@ services:
   db:
     image: "postgres:14"
     environment:
+      - POSTGRES_USER=kierroskone
+      - POSTGRES_DB=kierroskone_dev
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
