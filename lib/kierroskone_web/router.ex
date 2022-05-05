@@ -26,6 +26,7 @@ defmodule KierroskoneWeb.Router do
     get("/dead/unclaimed", PageController, :unclaimed)
     get("/dead/claim/:id", PageController, :claim)
     post("/dead/claim/:id", PageController, :submit_claim)
+    get("/dead/laptimes/:id", PageController, :laptime)
 
     # Currently non-working (in prod) liveview stuff below this
 

@@ -1,0 +1,29 @@
+<h1>Laptime</h1>
+
+<table>
+  <tbody>
+    <tr>
+      <th>Track</th>
+      <td><%= @laptime.track.name %></td>
+    </tr>
+    <tr>
+      <th>Time</th>
+      <td><%= humanize_laptime(@laptime) %></td>
+    </tr>
+    <tr>
+      <th>Car</th>
+      <td><%= @laptime.car.name %><%= if !is_nil(@laptime.car.class), do: " (#{@laptime.car.class.name})" %></td>
+    </tr>
+    <tr>
+      <th>Driver</th>
+      <td><%= if is_nil(@laptime.user), do: link("Claim", to: Routes.page_path(@conn, :claim, @laptime.id)), else: @laptime.user.name %></td>
+    </tr>
+    <tr>
+      <th>Recorded at</th>
+      <td><%= @laptime.driven_at %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Telemetry</h2>
+<pre><code>foo</code></pre>

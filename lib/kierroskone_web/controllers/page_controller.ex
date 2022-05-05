@@ -81,6 +81,15 @@ defmodule KierroskoneWeb.PageController do
     |> assign(:laptimes, Tracks.get_unclaimed_laptimes())
     |> render("unclaimed.html")
   end
+  
+  @doc """
+  View single laptime.
+  """
+  def laptime(conn, %{"id" => laptime_id}) do
+    conn
+    |> assign(:laptime, Tracks.get_laptime!(laptime_id))
+    |> render("laptime.html")
+  end
 
   # Helper for getting the logged in user's name (or faking it for dev).
   defp get_logged_in_user_name(conn) do
