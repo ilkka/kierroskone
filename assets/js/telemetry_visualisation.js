@@ -76,9 +76,9 @@ export default function(parentElement, telemetry) {
 
 
 
-	const x_offset = (max.x - min.x) / 2;
-	const y_offset = (max.y - min.y) / 2;
-	const z_offset = (max.z - min.z) / 2;
+	const x_offset = (max.x + min.x) / 2;
+	const y_offset = (max.y + min.y) / 2;
+	const z_offset = (max.z + min.z) / 2;
 
 	console.log(x_offset, y_offset, z_offset);
 
