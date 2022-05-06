@@ -95,13 +95,8 @@ export default function(parentElement, telemetry) {
 		player1.traverse( function ( child ) {
 
 			if ( child.isMesh ) {
-				if (child.name === "platform") {
-					// console.log("This", child);
-					child.visible = false;
-				}
 				// console.log( child.name, child.geometry.attributes.uv );
 				// child.material.map = texture; // assign your diffuse texture here
-
 			}
 
 		} );
