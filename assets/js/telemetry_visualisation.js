@@ -79,11 +79,15 @@ export default function(parentElement, telemetry) {
 	const x_offset = (max.x + min.x) / 2;
 	const y_offset = (max.y + min.y) / 2;
 	const z_offset = (max.z + min.z) / 2;
+	
+	const x_size = max.x - min.x;
+	const z_size = max.z - min.z;
 
 	console.log(x_offset, y_offset, z_offset);
 
-	camera.position.set(x_offset, y_offset + 50, z_offset)
+	camera.position.set(x_offset, Math.max(80, Math.max(x_size, z_size) * 0.6), z_offset)
 	camera.lookAt(new THREE.Vector3(x_offset, y_offset, z_offset));
+	console.log(camera.position)
 
 	const fbxLoader = new FBXLoader()
 	fbxLoader.load('/models/low_poly/Low-Poly-Racing-Car.fbx', player1 => {
@@ -114,6 +118,8 @@ export default function(parentElement, telemetry) {
 		console.log("Initial step", step);
 
 
+		const nextPt = route[1];
+		player1.lookAt(nextPt[0], nextPt[1], nextPt[2]);
 
 		// camera.lookAt(car.position);
 		function animate(timestamp) {
@@ -126,6 +132,7 @@ export default function(parentElement, telemetry) {
 				}
 
 				const pos = route[currentPoint];
+				const nextPoint = route[(currentPoint + 1) % routeLength];
 				//car.position.x = pos[0] / 100;
 				//car.position.y = pos[1] / 100;
 				//car.position.z = pos[2] / 100;
@@ -145,7 +152,14 @@ export default function(parentElement, telemetry) {
 				crumb.scale.y = 0.1;
 				crumb.scale.z = 1;
 				scene.add(crumb);
-				camera.lookAt(crumb.position);
+				//const nextDirection2D = (new THREE.Vector3(nextPoint[0], 0, nextPoint[2])).sub(new THREE.Vector3(currentPoint[0], 0, currentPoint[2]));
+				//player1.rotateY(carDirection2D.angleTo(nextDirection2D));
+				//carDirection2D = nextDirection2D;
+				//player1.rotation.setFromVector3((new THREE.Vector3()).fromArray(nextPos).sub((new THREE.Vector3()).fromArray(pos)))
+				player1.lookAt(nextPoint[0], nextPoint[1], nextPoint[2]);
+				camera.lookAt(player1.position);
+				camera.zoom = Math.max(1, camera.position.distanceTo(crumb.position) * 0.02);
+				camera.updateProjectionMatrix();
 			}
 		
 			requestAnimationFrame( animate );
