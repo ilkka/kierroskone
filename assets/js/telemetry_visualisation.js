@@ -103,9 +103,9 @@ export default function(parentElement, telemetry) {
 		} );
 
 		scene.add(player1)
-		player1.scale.x = 0.004
-		player1.scale.y = 0.004
-		player1.scale.z = 0.004
+		player1.scale.x = 0.02
+		player1.scale.y = 0.02
+		player1.scale.z = 0.02
 
 	
 		let currentPoint = 0;
@@ -145,6 +145,7 @@ export default function(parentElement, telemetry) {
 				crumb.scale.y = 0.1;
 				crumb.scale.z = 1;
 				scene.add(crumb);
+				camera.lookAt(crumb.position);
 			}
 		
 			requestAnimationFrame( animate );
