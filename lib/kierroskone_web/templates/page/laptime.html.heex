@@ -4,7 +4,7 @@
   <tbody>
     <tr>
       <th>Track</th>
-      <td><%= @laptime.track.name %></td>
+      <td><%= link(@laptime.track.name, to: Routes.page_path(@conn, :track, @laptime.track.id)) %></td>
     </tr>
     <tr>
       <th>Time</th>
