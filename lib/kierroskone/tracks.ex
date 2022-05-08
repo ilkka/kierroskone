@@ -142,7 +142,7 @@ defmodule Kierroskone.Tracks do
 
   """
   def get_laptime!(id), do: Repo.get!(Laptime, id) |> Repo.preload([:user, :track, car: [:class]])
-  
+
   @doc """
   Get telemetry for a single laptime or `nil` if telemetry does not exist.
   """
@@ -219,7 +219,7 @@ defmodule Kierroskone.Tracks do
         select: [lt.id],
         where: fragment("rank = ?", 1)
 
-    from(lt in Laptime, where: lt.id in subquery(top_laptime_ids) and not is_nil(lt.user_id))
+    from(lt in Laptime, where: lt.id in subquery(top_laptime_ids), order_by: lt.milliseconds)
     |> Repo.all()
     |> Repo.preload([:user, car: [:class]])
   end
@@ -251,7 +251,7 @@ defmodule Kierroskone.Tracks do
     |> Laptime.changeset(attrs)
     |> Repo.insert()
   end
-  
+
   @doc """
   Create a telemetry record for a laptime.
   """

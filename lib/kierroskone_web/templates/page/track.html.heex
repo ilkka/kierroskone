@@ -10,10 +10,10 @@ cond do
 end
 %>
 
-<h2>Lap records per car:</h2>
+<h2>Fastest times per car:</h2>
 <ul>
   <%= for record <- @records do %>
-  <li><%= record.car.name %><%= if not is_nil(record.car.class), do: " (#{record.car.class.name})" %>: <%= humanize_laptime(record) %> by <%= record.user.name %> on <%= record.inserted_at %></li>
+  <li><%= record.car.name %><%= if not is_nil(record.car.class), do: " (#{record.car.class.name})" %>: <%= humanize_laptime(record) %><%= if !is_nil(record.user), do: " by #{record.user.name}" %> on <%= record.inserted_at %></li>
   <% end %>
 </ul>
 
