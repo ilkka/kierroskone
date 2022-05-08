@@ -3,7 +3,7 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
 export default function (parentElement, data) {
   const telemetry = data[0];
-  const record = data.length > 1 ? data[1] : null;
+  const recordTelemetry = data.length > 1 ? data[1] : null;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xffffff);
   const camera = new THREE.PerspectiveCamera(
@@ -38,7 +38,9 @@ export default function (parentElement, data) {
       tItem.WorldPosition[2] * scale,
     ];
   const route = telemetry.map(toScaledWorldPosition(coordinateScale));
-  const recordRoute = record?.map(toScaledWorldPosition(coordinateScale));
+  const recordRoute = recordTelemetry?.map(
+    toScaledWorldPosition(coordinateScale)
+  );
 
   const routeLength = route.length;
 
@@ -105,14 +107,19 @@ export default function (parentElement, data) {
 
     let recordPosIdx = 0;
     let recordPos = recordRoute[recordPosIdx];
-    let recordTelemetryItem = record[recordPosIdx];
+    let recordTelemetryItem = recordTelemetry[recordPosIdx];
+    let nextRecordPosIdx = (recordPosIdx + 1) % recordRoute.length;
+    let nextRecordPos = recordRoute[nextRecordPosIdx];
+    let nextRecordTelemetryItem = recordTelemetry[nextRecordPosIdx];
 
-    const firstPt = route[0];
-    const nextPt = route[1];
-    player1.position.set(firstPt[0], firstPt[1], firstPt[2]);
-    player1.lookAt(nextPt[0], nextPt[1], nextPt[2]);
-    recordHolder.position.set(firstPt[0], firstPt[1] - 0.5, firstPt[2]);
-    recordHolder.lookAt(nextPt[0], nextPt[1], nextPt[2]);
+    player1.position.set(playerPos[0], playerPos[1], playerPos[2]);
+    player1.lookAt(nextPlayerPos[0], nextPlayerPos[1], nextPlayerPos[2]);
+    recordHolder.position.set(recordPos[0], recordPos[1] - 0.5, recordPos[2]);
+    recordHolder.lookAt(
+      nextRecordPos[0],
+      nextRecordPos[1] - 0.5,
+      nextRecordPos[2]
+    );
 
     const worldTimeScaleFactor = 3;
     let lastFrameTimestamp = 0;
@@ -137,8 +144,38 @@ export default function (parentElement, data) {
         lastFrameTimestamp = timestamp;
       }
 
+      // update record holder to next point if next point laptime < timestamp but only as long as the time increases
+      // (stop when the record lap ends)
+      if (
+        nextRecordTelemetryItem.LapTime > recordTelemetryItem.LapTime &&
+        nextRecordTelemetryItem.LapTime <= scaledWorldTime
+      ) {
+        recordPosIdx = nextRecordPosIdx;
+        recordPos = nextRecordPos;
+        recordTelemetryItem = nextRecordTelemetryItem;
+        nextRecordPosIdx = (recordPosIdx + 1) % recordRoute.length;
+        nextRecordPos = recordRoute[nextRecordPosIdx];
+        nextRecordTelemetryItem = recordTelemetry[nextRecordPosIdx];
+      }
+
+      // if player idx rolls over, reset record idx
+      if (playerPosIdx === 0) {
+        recordPosIdx = 0;
+        recordPos = recordRoute[recordPosIdx];
+        recordTelemetryItem = recordTelemetry[recordPosIdx];
+        nextRecordPosIdx = (recordPosIdx + 1) % recordRoute.length;
+        nextRecordPos = recordRoute[nextRecordPosIdx];
+        nextRecordTelemetryItem = recordTelemetry[nextRecordPosIdx];
+      }
+
       player1.position.set(playerPos[0], playerPos[1], playerPos[2]);
       player1.lookAt(nextPlayerPos[0], nextPlayerPos[1], nextPlayerPos[2]);
+      recordHolder.position.set(recordPos[0], recordPos[1] - 0.5, recordPos[2]);
+      recordHolder.lookAt(
+        nextRecordPos[0],
+        nextRecordPos[1] - 0.5,
+        nextRecordPos[2]
+      );
 
       const material = new THREE.MeshPhongMaterial({ color: 0x111111 });
       const crumb = new THREE.Mesh(geometry, material);
