@@ -1,7 +1,9 @@
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
-export default function (parentElement, telemetry) {
+export default function (parentElement, data) {
+  const telemetry = data[0];
+  const record = data.length > 1 ? data[1] : null;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xffffff);
   const camera = new THREE.PerspectiveCamera(
