@@ -31,11 +31,14 @@ export default function (parentElement, data) {
 
   const coordinateScale = 0.1;
 
-  const route = telemetry.map((tItem) => [
-    tItem.WorldPosition[0] * coordinateScale,
-    tItem.WorldPosition[1] * coordinateScale,
-    tItem.WorldPosition[2] * coordinateScale,
-  ]);
+  const toScaledWorldPosition = (scale) => (tItem) =>
+    [
+      tItem.WorldPosition[0] * scale,
+      tItem.WorldPosition[1] * scale,
+      tItem.WorldPosition[2] * scale,
+    ];
+  const route = telemetry.map(toScaledWorldPosition(coordinateScale));
+  const recordRoute = record?.map(toScaledWorldPosition(coordinateScale));
 
   const routeLength = route.length;
 
@@ -87,52 +90,75 @@ export default function (parentElement, data) {
     player1.scale.y = 0.02;
     player1.scale.z = 0.02;
 
-    let currentPoint = 0;
-    let step = 0;
+    const recordHolder = player1.clone();
+    scene.add(recordHolder);
+    recordHolder.scale.x = 0.02;
+    recordHolder.scale.y = 0.02;
+    recordHolder.scale.z = 0.02;
 
-    console.log("Initial step", step);
+    let playerPosIdx = 0;
+    let playerPos = route[playerPosIdx];
+    let playerTelemetryItem = telemetry[playerPosIdx];
+    let nextPlayerPosIdx = (playerPosIdx + 1) % route.length;
+    let nextPlayerPos = route[nextPlayerPosIdx];
+    let nextPlayerTelemetryItem = telemetry[nextPlayerPosIdx];
 
+    let recordPosIdx = 0;
+    let recordPos = recordRoute[recordPosIdx];
+    let recordTelemetryItem = record[recordPosIdx];
+
+    const firstPt = route[0];
     const nextPt = route[1];
+    player1.position.set(firstPt[0], firstPt[1], firstPt[2]);
     player1.lookAt(nextPt[0], nextPt[1], nextPt[2]);
+    recordHolder.position.set(firstPt[0], firstPt[1] - 0.5, firstPt[2]);
+    recordHolder.lookAt(nextPt[0], nextPt[1], nextPt[2]);
+
+    const worldTimeScaleFactor = 3;
+    let lastFrameTimestamp = 0;
 
     function animate(timestamp) {
-      if ((timestamp !== undefined && step === 0) || timestamp - step > 100) {
-        step = timestamp;
-        if (currentPoint < routeLength - 1) {
-          ++currentPoint;
-        } else {
-          currentPoint = 0;
-        }
-
-        const pos = route[currentPoint];
-        const nextPoint = route[(currentPoint + 1) % routeLength];
-
-        player1.position.x = pos[0];
-        player1.position.y = pos[1];
-        player1.position.z = pos[2];
-
-        const material = new THREE.MeshPhongMaterial({ color: 0x111111 });
-        const crumb = new THREE.Mesh(geometry, material);
-        crumb.position.x = pos[0];
-        crumb.position.y = pos[1] - 1;
-        crumb.position.z = pos[2];
-        crumb.scale.x = 1;
-        crumb.scale.y = 0.1;
-        crumb.scale.z = 1;
-        scene.add(crumb);
-
-        player1.lookAt(nextPoint[0], nextPoint[1], nextPoint[2]);
-        camera.lookAt(player1.position);
-        camera.zoom = Math.max(
-          1,
-          camera.position.distanceTo(crumb.position) * 0.02
-        );
-        camera.updateProjectionMatrix();
+      const scaledWorldTime =
+        playerTelemetryItem.LapTime +
+        (timestamp - lastFrameTimestamp) * worldTimeScaleFactor;
+      // update player to next point if
+      // - next point laptime < timestamp (we moved)
+      // - next point laptime < current point laptime (we looped)
+      if (
+        nextPlayerTelemetryItem.LapTime <= scaledWorldTime ||
+        nextPlayerTelemetryItem.LapTime < playerTelemetryItem.LapTime
+      ) {
+        playerPosIdx = nextPlayerPosIdx;
+        playerPos = nextPlayerPos;
+        playerTelemetryItem = nextPlayerTelemetryItem;
+        nextPlayerPosIdx = (playerPosIdx + 1) % route.length;
+        nextPlayerPos = route[nextPlayerPosIdx];
+        nextPlayerTelemetryItem = telemetry[nextPlayerPosIdx];
+        lastFrameTimestamp = timestamp;
       }
+
+      player1.position.set(playerPos[0], playerPos[1], playerPos[2]);
+      player1.lookAt(nextPlayerPos[0], nextPlayerPos[1], nextPlayerPos[2]);
+
+      const material = new THREE.MeshPhongMaterial({ color: 0x111111 });
+      const crumb = new THREE.Mesh(geometry, material);
+      crumb.position.set(playerPos[0], playerPos[1] - 1, playerPos[2]);
+      crumb.scale.x = 1;
+      crumb.scale.y = 0.1;
+      crumb.scale.z = 1;
+      scene.add(crumb);
+
+      camera.lookAt(player1.position);
+      camera.zoom = Math.max(
+        1,
+        camera.position.distanceTo(crumb.position) * 0.02
+      );
+      camera.updateProjectionMatrix();
 
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
     }
-    animate();
+
+    requestAnimationFrame(animate);
   });
 }
