@@ -81,13 +81,16 @@ defmodule KierroskoneWeb.PageController do
     |> assign(:laptimes, Tracks.get_unclaimed_laptimes())
     |> render("unclaimed.html")
   end
-  
+
   @doc """
   View single laptime.
   """
   def laptime(conn, %{"id" => laptime_id}) do
+    time = Tracks.get_laptime!(laptime_id)
+
     conn
-    |> assign(:laptime, Tracks.get_laptime!(laptime_id))
+    |> assign(:laptime, time)
+    |> assign(:record, Tracks.get_overall_record(time.track))
     |> render("laptime.html")
   end
 
