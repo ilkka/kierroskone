@@ -1,6 +1,7 @@
 apiVersion: v2
 name: kierroskone
-description: Laptimes thingy for Dirt 2 and maybe other games
+description: Laptimes thingy for Dirt 2 and Assetto Corsa
+namespace: play
 
 # A chart can be either an 'application' or a 'library' chart.
 #
