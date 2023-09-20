@@ -3,7 +3,7 @@
 ARG USERNAME=kierroskone
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
-ARG ELIXIR_VERSION=1.13.3
+ARG ELIXIR_VERSION=1.15.4
 
 
 ## **********************************************************************
