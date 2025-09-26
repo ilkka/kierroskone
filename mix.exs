@@ -49,7 +49,7 @@ defmodule Kierroskone.MixProject do
       {:gettext, "~> 0.23"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:credo, "~>1.6", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:timex, "~> 3.7.7"},
       {:ex_json_schema, "~> 0.10.0"},
       {:jose, "~> 1.11.2"}
